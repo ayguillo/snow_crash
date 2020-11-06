@@ -1,0 +1,9 @@
+Dans la vidéo il montre un README. Ou il est dit qu'il faut chercher le seul fichier executable par l'utilisateur
+
+Donc un find fait l'affaire : cat $(find / -type f -user flag00 -group flag00 2>/dev/null)
+
+On obtiens ça : cdiiddwpgswtgt
+
+Sur DCode, on peut déchiffrer du rot https://www.dcode.fr/chiffre-rot, on trouve "nottoohardhere".
+
+su flag00 puis mdp : nottoohardhere

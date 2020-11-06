@@ -1,0 +1,9 @@
+Faire un cat /etc/passwd, et remarquer un semblant de mot de passe chiffré.
+
+Faire un scp -P 4242 level01@192.168.1.81:/etc/passwd .
+
+Puis john --show passwd
+
+Récupérer abcdefg
+
+su flag01 puis mdp : abcdefg
