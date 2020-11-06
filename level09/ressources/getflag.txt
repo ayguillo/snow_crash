@@ -1,0 +1,11 @@
+On a deux fichiers, level09 et token
+
+On test un peu le binaire, on voit qu'il fait un rot string de:
+i+pos(i)
+
+On comprend donc que la string dans token est simplement notre token encodé avec le fichier level09
+
+On fait donc un reverse de cet encodage, en python (decode.py)
+on l'exécute avec pour entré notre string donnée par token.
+
+et on obtient notre flag: f3iji1ju5yuevaus41q1afiuq
