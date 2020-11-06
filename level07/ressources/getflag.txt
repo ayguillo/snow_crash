@@ -1,0 +1,4 @@
+Le binaire level08 est un binaire qui permet de lire les fichier.
+Il y a un fichier token sur lequel nous n'avons pas les droits.
+level08 empêche la lecture de "token", mais sans vérifier les droits. C'est simplement une valeur en dur.
+Donc en créant un un lien symbolique dans tmp avec ln -s /home/user/level08/token link puis en exécutant ./level08 /tmp/link, on peut lire le fichier token 
