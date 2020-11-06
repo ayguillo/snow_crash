@@ -1,0 +1,13 @@
+level02.pcap à la racine.
+scp -P 4242 level02@192.168.1.81:/home/user/level02/level02.pcap .
+
+Installer wireshark pour lire un fichier .pcap
+Lire le fichier avec wireshark
+click droit + suivre + flux tcp
+
+On a remarqué un champ Password avec pour clé : ft_wandr...NDRel.L0L
+On a set le "show data as" en hexdump
+On a retrouvé le champ Password
+On a utilisé les valeurs hexa en ascii pour retrouver le mot de passe et se rendre compte que les "." représentaient des suppressions de charactères.
+
+su flag02 puis mdp : ft_waNDReL0L
