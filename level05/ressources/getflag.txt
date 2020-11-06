@@ -1,0 +1,7 @@
+Quand nous nous connectons au level, nous avons une notification "You have new mail"
+
+Nous pouvons aller voir dans /var/mail, et nous trouvons un cron qui lance tous les fichiers du dossier /opt/openarenaserver/
+
+Donc en créant un fichier "getflag" avec dedans echo "`/bin/getflag`" > /tmp/flag.txt.
+
+Le cron va passer, exécuter la commande et imprimer le résultat dans le fichier /tmp/flag.txt
