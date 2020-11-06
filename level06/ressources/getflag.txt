@@ -1,0 +1,4 @@
+Il y a un fichier level06 qui appelle le fichier level06.php
+Dans ce fichier php, est utilisé un flag /e qui est déprécié et connue pour être une faille.
+On peut donc exécuter une commande en mettant dans un fichier (présent dans tmp) :
+  [x {${exec(getflag)}}] pour exécuter getflag
