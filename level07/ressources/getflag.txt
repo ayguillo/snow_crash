@@ -1,0 +1,18 @@
+On a un fichier level07 qui semble être un exécutable
+On remarque quand il est exécuté, level07 est affiché, ce qui est le nom du fichier, du level et de notre username.
+
+On utilise la commande "strings level07".
+On remarque les lignes:
+
+getenv
+...
+LOGNAME
+/bin/echo %s
+
+On en comprend assez vite donc que le fichier lit simplement la variable de l'environnemnent LOGNAME
+
+on peut simplement changer la variable d'env LOGNAME en mettant:
+export LOGNAME=\`/bin/getflag\`
+
+On lance le ./level07
+Et ca fonctionne.
