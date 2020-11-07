@@ -1,0 +1,5 @@
+Sur ce level, nous avons un script en lua
+Nous avons remarqué que ce script est lancé par flag11 qui écoute sur 127.0.0.1 sur le port 5151.
+On peut lancer la commande 'nc 127.0.0.1 5151' qui nous demande un mot de passe
+On peut mettre dans password : `echo \`/bin/getflag\` > /tmp/test`, car ça sera exécuté avec les droits de flag11
+Ce qui va imprimer dans /tmp/test le flag
