@@ -1,0 +1,27 @@
+On a remarqué un fichier level12.pl
+Il use CGI, donc utilise le protocole HTTP
+
+On peut donc le curl.
+
+On remarque que le programme lance une fonction t, avec 2 paramètres sur notre requete, x et y.
+On s'intéresse au paramètre x, qui subit 2 regex:
+- la première qui passe tous les charactères compris entre a et z en majuscule (A-Z).
+- la seconde qui delete tous les charactères après le premier whitespace.
+
+On remarque que dans la séquence  @output = `egrep "^$xx" /tmp/xd 2>&1`;
+les `` exécutent l'expression.
+
+Donc la faille est à ce niveau là.
+
+Pour l'exploiter on va créer un fichier /tmp/CURL
+en écrivant à l'intérieur: getflag > /tmp/ret
+en donnant tous les droits de lecture/ecriture/execution à CURL pour tout le monde: chmod 777 CURL
+
+On peut maintenant exploiter notre faille avec: curl localhost:4646?x="\`/tmp/CURL\`"
+mince, ça ne fonctionne pas car, /TMP/CURL n'existe pas, cela est du à la première regex qui transforme tous les charactères alphabétiques en majuscule
+
+On va donc utiliser les wildcards, car /*/CURL va chercher la première occurence de CURL dans tous les dossiers présents à partir de "/", root.
+
+ce qui va faire exécuter par le programme notre paramètre, qui va exécuter lui /tmp/CURL.
+
+Et voilà, dans le fichier /tmp/ret, on récupère bien notre flag.
