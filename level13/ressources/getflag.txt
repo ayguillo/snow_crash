@@ -1,0 +1,54 @@
+On remarque un binaire, level13, dans notre home.
+On l'exécute et remarque qu'il demande à être exécuté par un uid spécifique: 4242.
+On l'observe via strings:
+...
+UID %d started us but we we expect %d
+boe]!ai0FB@.:|L6l@A?>qJ}I
+your token is %s
+...
+
+On dirait bien notre token hashé.
+
+
+On peut se dire que on peut juste faire print le token par le programme, via GDB
+On lance donc gdb: gdb level13
+
+On utilise la commande disas main, pour voir ce qu'il se passe:
+
+Dump of assembler code for function main:
+   0x0804858c <+0>:     push   %ebp
+   0x0804858d <+1>:     mov    %esp,%ebp
+   0x0804858f <+3>:     and    $0xfffffff0,%esp
+   0x08048592 <+6>:     sub    $0x10,%esp
+   0x08048595 <+9>:     call   0x8048380 <getuid@plt>
+   0x0804859a <+14>:    cmp    $0x1092,%eax
+   0x0804859f <+19>:    je     0x80485cb <main+63>
+   0x080485a1 <+21>:    call   0x8048380 <getuid@plt>
+   0x080485a6 <+26>:    mov    $0x80486c8,%edx
+   0x080485ab <+31>:    movl   $0x1092,0x8(%esp)
+   0x080485b3 <+39>:    mov    %eax,0x4(%esp)
+   0x080485b7 <+43>:    mov    %edx,(%esp)
+   0x080485ba <+46>:    call   0x8048360 <printf@plt>
+   0x080485bf <+51>:    movl   $0x1,(%esp)
+   0x080485c6 <+58>:    call   0x80483a0 <exit@plt>
+   0x080485cb <+63>:    movl   $0x80486ef,(%esp)
+   0x080485d2 <+70>:    call   0x8048474 <ft_des>
+   0x080485d7 <+75>:    mov    $0x8048709,%edx
+   0x080485dc <+80>:    mov    %eax,0x4(%esp)
+   0x080485e0 <+84>:    mov    %edx,(%esp)
+   0x080485e3 <+87>:    call   0x8048360 <printf@plt>
+   0x080485e8 <+92>:    leave
+   0x080485e9 <+93>:    ret
+End of assembler dump.
+
+
+On remarque une comparaison à la ligne +14, entre 0x1092 et eax:
+- eax est une variable
+- 0x1092 est de l'hexa, miracle ça donne 4242 en valeur décimal.
+
+On va donc tout simplement vouloir changer la valeur de la variable eax avant la comparaison en 4242.
+Pour cela on va set un breakpoint dans gdb à l'adresse mémoire +14 du programme dans gdb en utilisant la commande: b*main+14
+Ensuite on utilise la commande set pour set eax à 4242: set $eax=4242
+Puis on continue le programme avec la commande: c
+
+et miracle le token s'affiche.
