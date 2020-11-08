@@ -1,0 +1,16 @@
+Dans ce niveau, il n'y a rien à la racine.
+Fort de l'expérience du précédent niveau, nous nous sommes dit qu'il serait intéressant de décompiler getflag.
+
+Et ces lignes vous nous intéressés
+0x08048bb6 <+624>:	cmp    $0xbc6,%eax
+0x08048bbb <+629>:	je     0x8048de5 <main+1183>
+0x08048bc1 <+635>:	jmp    0x8048e06 <main+1216>
+0x08048bc6 <+640>:	mov    0x804b060,%eax
+
+Première ligne on voit qu'il y a une comparaison. 0xbc6 correspond à 3014, soit l'uid du flag14 (en suivant la logique des uid des précédents niveaux)
+Et sur la ligne d'en dessous, l'instruction "je" indique qu'il y a un jump si l'égalité précédente est validée.
+Il nous suffit alors de jumper nous-même dessus.
+
+Donc après avoir setter un breakpoint à main+1 pour éviter le message d'erreur, on peut faire :
+ju *0x08048bbb
+Cela va segfault le programme mais nous donner le flag.
