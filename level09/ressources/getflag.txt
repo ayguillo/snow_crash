@@ -8,4 +8,6 @@ On comprend donc que la string dans token est simplement notre token encodé ave
 On fait donc un reverse de cet encodage, en python (decode.py)
 on l'exécute avec pour entré notre string donnée par token.
 
-et on obtient notre flag: f3iji1ju5yuevaus41q1afiuq
+et on obtient notre token : f3iji1ju5yuevaus41q1afiuq
+
+Un su flag09 avec ce mot de passe, puis un getflag nous donnera notre flag.
