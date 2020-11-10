@@ -1,4 +1,18 @@
-Il y a un fichier level06 qui appelle le fichier level06.php
-Dans ce fichier php, est utilisé un flag /e qui est déprécié et connue pour être une faille.
-On peut donc exécuter une commande en mettant dans un fichier (présent dans tmp) :
-  [x {${exec(getflag)}}] pour exécuter getflag
+Il y a un binaire level06
+En faisaint un strings dessus on remarque qu'il appelle le fichier level06.php
+Dans ce fichier php, est utilisé un flag /e qui est deprecated et est connue pour être une faille.
+
+On remarque que si on exécute le binaire, il lit le contenu d'un fichier par exemple:
+echo "test" > /tmp/test
+./level06 test
+Le script repond "test"
+
+On peut donc exécuter une commande en mettant dans un fichier (présent dans tmp), /tmp/exploit par exemple :
+x {${exec(getflag)}}]
+
+Afin de tirer parti du flag /e, deprecated, du script level06.php
+
+On exécute notre exploit.
+./level06 /tmp/exploit
+
+Et on a bien le flag qui s'affiche

